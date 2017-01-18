@@ -13,12 +13,26 @@
     tools:context="guthboss.com.androidlabs.LoginActivity"
     tools:showIn="@layout/activity_login">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:Text="@string/login"
-        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+
         />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Login Name"
+        android:textAlignment="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:textAlignment="center"
+        android:inputType="textPassword" />
 </LinearLayout>
