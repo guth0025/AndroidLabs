@@ -25,5 +25,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    protected void onResume()
+    {
+        super.onResume();
+    }
+    protected void onStart()
+    {
+        super.onStart();
+    }
+    protected void onPause()
+    {
+        super.onPause();
+    }
+    protected void onStop()
+    {
+        super.onStop();
+    }
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
 
 }
