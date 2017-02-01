@@ -23,7 +23,9 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:hint="Login Name"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:id="@+id/email"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,4 +37,13 @@
         android:hint="Password"
         android:textAlignment="center"
         android:inputType="textPassword" />
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginButton"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_vertical|center_horizontal"
+        tools:text="@string/login" />
 </LinearLayout>
