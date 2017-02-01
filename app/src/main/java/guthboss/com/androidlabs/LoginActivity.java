@@ -1,5 +1,6 @@
 package guthboss.com.androidlabs;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,13 +22,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        email = (EditText) findViewById(R.id.email);
+
         Button login = (Button) findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPref.getString("DefaultEmail",email.getText().toString());
-                Log.i("Email",email.getText().toString());
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("email",email.getText().toString());
+                editor.apply();
+                Log.i("Email",sharedPref.getString("email","").toString());
             }
         });
     }
@@ -38,9 +42,28 @@ public class LoginActivity extends AppCompatActivity {
     }
     protected void onStart()
     {
+        email = (EditText) findViewById(R.id.email);
         super.onStart();
         Log.i(ACTIVITY_NAME,"In onStart");
-        sharedPref.getString("DefaultEmail","email@domain.com");
+        sharedPref = getSharedPreferences("Log Info",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("DefaultEmail","email@domain.com");
+        editor.apply();
+
+        if(sharedPref.getString("email","")=="")
+        {
+           String temp = sharedPref.getString("DefaultEmail","");
+            Log.i("Temp:",temp);
+            email.getText().clear();
+            email.setText(temp);
+        }
+        else
+        {
+            String temp = sharedPref.getString("email","");
+            Log.i("Temp:",temp);
+            email.getText().clear();
+            email.setText(temp);
+        }
 
     }
     protected void onPause()
