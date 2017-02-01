@@ -6,4 +6,8 @@
     <string name="login">LOGIN</string>
     <string name="password">PASSWORD</string>
     <string name="email">Default Email</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">cancel</string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_message">Wish to leave?</string>
 </resources>

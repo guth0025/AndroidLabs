@@ -12,9 +12,17 @@
     android:rowCount="2">
 
     <RadioButton android:layout_columnWeight="1" android:gravity="fill"/>
-    <CheckBox android:layout_columnWeight="1" android:gravity="fill"/>
-    <Switch android:text="Enable Something" android:layout_columnWeight="1" android:gravity="fill"/>
-    <ImageButton android:background="@android:drawable/btn_star_big_on" android:layout_columnWeight="1" android:gravity="fill" />
+    <CheckBox android:layout_columnWeight="1" android:gravity="fill" android:id="@+id/chck"/>
+    <Switch
+        android:text="Enable Something"
+        android:layout_columnWeight="1"
+        android:gravity="fill"
+        android:id="@+id/swch"/>
+    <ImageButton
+        android:background="@android:drawable/btn_star_big_on"
+        android:layout_columnWeight="1"
+        android:gravity="fill"
+        android:id="@+id/imageBttn" />
 
 
 

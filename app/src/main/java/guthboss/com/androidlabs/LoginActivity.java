@@ -1,6 +1,7 @@
 package guthboss.com.androidlabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("email",email.getText().toString());
                 editor.apply();
                 Log.i("Email",sharedPref.getString("email","").toString());
+                start();
             }
         });
     }
@@ -80,6 +82,11 @@ public class LoginActivity extends AppCompatActivity {
     {
         super.onDestroy();
         Log.i(ACTIVITY_NAME,"In onDestroy");
+    }
+    private void start()
+    {
+        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intent);
     }
 
 }
