@@ -24,6 +24,8 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Log.i("ACTIVITY_NAME","User clicked Start Chat");
+                Intent startIntent  = new Intent(getApplicationContext(),chatBox.class);
+                startActivity(startIntent);
             }
         });
         b1.setOnClickListener(new View.OnClickListener()
