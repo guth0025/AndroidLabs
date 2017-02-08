@@ -18,6 +18,14 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Button b1 = (Button)findViewById(R.id.button);
+        Button startChat = (Button) findViewById(R.id.startChat);
+        startChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.i("ACTIVITY_NAME","User clicked Start Chat");
+            }
+        });
         b1.setOnClickListener(new View.OnClickListener()
         {
             @Override

@@ -10,4 +10,6 @@
     <string name="cancel">cancel</string>
     <string name="dialog_title">Title</string>
     <string name="dialog_message">Wish to leave?</string>
+    <string name="startchat">Start Chat</string>
+    <string name="send">Send</string>
 </resources>
