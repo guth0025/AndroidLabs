@@ -1,6 +1,7 @@
 package guthboss.com.androidlabs;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,9 @@ public class chatBox extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_box);
+        ChatDatabaseHelper db = new ChatDatabaseHelper(this);
+        SQLiteDatabase writeableDB = db.getWritableDatabase();
+        //writeableDB.query();
         listView = (ListView) findViewById(R.id.list);
         send = (Button) findViewById(R.id.send);
         chatbox = (EditText) findViewById(R.id.chatbox);
