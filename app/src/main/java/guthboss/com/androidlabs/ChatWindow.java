@@ -1,6 +1,8 @@
 package guthboss.com.androidlabs;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,25 +18,44 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class chatBox extends AppCompatActivity {
+public class ChatWindow extends AppCompatActivity {
     ListView listView;
     Button send;
     EditText chatbox;
     ArrayList<String> chat;
+    private String[] allColumns = {ChatDatabaseHelper.KEY_ID,ChatDatabaseHelper.KEY_MESSAGE};
+
+
+    /************************************* onCreate *****************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chat_box);
+
         ChatDatabaseHelper db = new ChatDatabaseHelper(this);
+
         SQLiteDatabase writeableDB = db.getWritableDatabase();
-        //writeableDB.query();
+
+        setChat(db,writeableDB);
+
         listView = (ListView) findViewById(R.id.list);
+
         send = (Button) findViewById(R.id.send);
+
         chatbox = (EditText) findViewById(R.id.chatbox);
+
         chat = new ArrayList<String>();
+
         final ChatAdapter messageAdapter =  new ChatAdapter(this);
+
         listView.setAdapter(messageAdapter);
+
+        ContentValues values = new ContentValues();
+
+
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +67,7 @@ public class chatBox extends AppCompatActivity {
             }
         });
     }
-
+    /************************************* CHAT ADAPTER ***********************************/
     private class ChatAdapter extends ArrayAdapter<String>
     {
         public ChatAdapter(Context ctx)
@@ -69,7 +90,7 @@ public class chatBox extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent)
         {
             View result = null;
-            LayoutInflater inflater = chatBox.this.getLayoutInflater();
+            LayoutInflater inflater = ChatWindow.this.getLayoutInflater();
             if(position % 2 == 0)
             {
                     result = inflater.inflate(R.layout.chat_row_incoming,null);
@@ -85,6 +106,19 @@ public class chatBox extends AppCompatActivity {
         }
 
     }
+    /*********************************set Chat ***********************************************/
+    private void setChat(ChatDatabaseHelper db,SQLiteDatabase writeableDB)
+    {
+        Cursor cursor = writeableDB.query(db.TABLE_NAME,allColumns,null,null,null,null,null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast())
+        {
+            Log.i("ChatWindow","SQL MESSAGE:" + cursor.getString( cursor.getColumnIndex( ChatDatabaseHelper.KEY_MESSAGE)));
+            chat.add(cursor.getString(1));
+            System.out.println(cursor.getString(1));
+        }
+    }
+
 }
 
 
