@@ -3,6 +3,7 @@ package guthboss.com.androidlabs;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,8 +25,8 @@ public class ChatWindow extends AppCompatActivity {
     EditText chatbox;
     ArrayList<String> chat;
     private String[] allColumns = {ChatDatabaseHelper.KEY_ID,ChatDatabaseHelper.KEY_MESSAGE};
-
-
+    SQLiteDatabase writeableDB;
+    ChatDatabaseHelper db;
     /************************************* onCreate *****************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,9 @@ public class ChatWindow extends AppCompatActivity {
 
         setContentView(R.layout.activity_chat_box);
 
-        ChatDatabaseHelper db = new ChatDatabaseHelper(this);
 
-        SQLiteDatabase writeableDB = db.getWritableDatabase();
 
-        setChat(db,writeableDB);
+
 
         listView = (ListView) findViewById(R.id.list);
 
@@ -61,6 +60,7 @@ public class ChatWindow extends AppCompatActivity {
             public void onClick(View v) {
 
                 chat.add(chatbox.getText().toString());
+               // messageAdapter.insertChat(chatbox.getText().toString());
                 Log.i("ChatBox:",chat.toString());
                 messageAdapter.notifyDataSetChanged();
                 chatbox.setText("");
@@ -70,11 +70,67 @@ public class ChatWindow extends AppCompatActivity {
     /************************************* CHAT ADAPTER ***********************************/
     private class ChatAdapter extends ArrayAdapter<String>
     {
+        Context mCtx;
+/*********************CHATADAPTER CONSTRUCTOR**************/
         public ChatAdapter(Context ctx)
         {
                super(ctx,0);
+               this.mCtx = ctx;
+        }
+
+/*********************************************OPEN DB********************************************/
+        public ChatAdapter open() throws SQLException
+        {
+            db = new ChatDatabaseHelper(mCtx);
+            writeableDB = db.getWritableDatabase();
+            return this;
+        }
+/**************************************** CLOSE DB ********************************************/
+        public void close()
+        {
+            if(db != null)
+            {
+                db.close();
+            }
+        }
+        /**************UPDATE DB**************************/
+        public void update() throws SQLException
+        {
+            db = new ChatDatabaseHelper(mCtx);// open
+            writeableDB = db.getWritableDatabase();
+            db.onUpgrade(writeableDB,1,0);
+        }
+
+        /******************INSERT TO DB********************/
+        public long insertChat(ContentValues initialValues)
+        {
+                return writeableDB.insertWithOnConflict(db.TABLE_NAME,null,initialValues,SQLiteDatabase.CONFLICT_IGNORE);
+        }
+        /*****************DELTE FROM DB********************/
+        public boolean updateChat(int id, ContentValues newValues)
+        {
+            String[] selectionArgs = {String.valueOf(id)};
+            return writeableDB.update(db.TABLE_NAME,newValues,db.KEY_ID+"=?",selectionArgs)>0;
+        }
+        /*****************UPDATEQUERY*********************/
+        public boolean deleteChat(int id)
+        {
+            String[] selectionArgs = {String.valueOf(id)};
+            return writeableDB.delete(db.TABLE_NAME,db.KEY_ID+"=?",selectionArgs)>0;
+        }
+        /************Grab existing chat********************/
+        public Cursor getChat()
+        {
+            return writeableDB.query(db.TABLE_NAME,db.CHAT_FIELDS,null,null,null,null,null);
 
         }
+        public String getChatFromCursor(Cursor cursor)
+        {
+            String chatMSG = new String();
+            chatMSG = cursor.getString(cursor.getColumnIndex(db.KEY_MESSAGE));
+            return chatMSG;
+        }
+
         @Override
         public int getCount()
         {
@@ -106,18 +162,7 @@ public class ChatWindow extends AppCompatActivity {
         }
 
     }
-    /*********************************set Chat ***********************************************/
-    private void setChat(ChatDatabaseHelper db,SQLiteDatabase writeableDB)
-    {
-        Cursor cursor = writeableDB.query(db.TABLE_NAME,allColumns,null,null,null,null,null);
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast())
-        {
-            Log.i("ChatWindow","SQL MESSAGE:" + cursor.getString( cursor.getColumnIndex( ChatDatabaseHelper.KEY_MESSAGE)));
-            chat.add(cursor.getString(1));
-            System.out.println(cursor.getString(1));
-        }
-    }
+
 
 }
 
