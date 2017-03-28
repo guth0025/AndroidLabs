@@ -102,7 +102,7 @@ public class ChatWindow extends AppCompatActivity {
             TextView message = (TextView)result.findViewById(R.id.message_text);
             message.setText(getItem(position));
 
-            return result;//Change this in step 9
+            return result;
         }
 
     }
