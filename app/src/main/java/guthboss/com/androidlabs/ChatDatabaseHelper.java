@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ChatDatabaseHelper extends SQLiteOpenHelper {
     private static  final String DATABASE_NAME = "Chats.db";
-    private static final String DATABASE_CREATE = "CREATE TABLE integer primary key autoincrement text not null";
-    private static final int VERSION_NUM = 1;
+    private static final String DATABASE_CREATE = "CREATE TABLE messages (id integer primary key autoincrement, message text not null);";
+    private static final int VERSION_NUM = 2;
     ChatDatabaseHelper(Context ctx)
     {
 
@@ -25,7 +25,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
 
     public void onUpgrade(SQLiteDatabase db,int oldVersion, int newVersion)
     {
-        db.execSQL("DROP TABLE IF EXISTS");
+        db.execSQL("DROP TABLE IF EXISTS messages");
         onCreate(db);
     }
 

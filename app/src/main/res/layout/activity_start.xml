@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/startchat"
-        android:id="@+id/startChat"
+        android:id="@+id/start_chat"
         android:layout_below="@+id/button"
-        android:layout_alignEnd="@+id/button"></Button>
+        android:layout_alignEnd="@+id/button"/>
 </RelativeLayout>
