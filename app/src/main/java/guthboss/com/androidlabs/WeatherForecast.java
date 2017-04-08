@@ -79,33 +79,7 @@ public class WeatherForecast extends AppCompatActivity {
 
         }
 
-        protected void onPostExecute(String check)
-        {
-            if(check.equals("Finished"))
-            {
-                if(min != null)
-                {
-                    minView.setText("Min: "+ min);
-                    maxView.setText("Max: "+max);
-                    currentView.setText("Current: "+current);
-                    Log.i("Icon: ",iconName);
-
-                }
-                else
-                {
-                    Log.i("Empty","Min");
-                }
-
-                if(weatherBit != null)
-                {
-                    Log.i("Entered: ","Weather Bit Not EMPTY");
-                    weatherIcon.setImageBitmap(weatherBit);
-                }
-                progBar.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        private void readFeed(XmlPullParser parser) throws XmlPullParserException, IOException, InterruptedException {
+        private void readFeed(XmlPullParser parser) throws XmlPullParserException, IOException, InterruptedException {// Connect to url for data min max and current
 
 
             parser.require(XmlPullParser.START_TAG, null, null);
@@ -153,14 +127,41 @@ public class WeatherForecast extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... update)
+        protected void onProgressUpdate(Integer... update)//everytime onProgressUpdate is called this runs its a way to keep in touch with main thread while running in background
         {
             super.onProgressUpdate(update);
             progBar.setProgress(update[0]);
 
         }
 
-        public void getImage() throws MalformedURLException {
+        protected void onPostExecute(String check)//after Async completes run this
+        {
+            if(check.equals("Finished"))
+            {
+                if(min != null)
+                {
+                    minView.setText("Min: "+ min);
+                    maxView.setText("Max: "+max);
+                    currentView.setText("Current: "+current);
+                    Log.i("Icon: ",iconName);
+
+                }
+                else
+                {
+                    Log.i("Empty","Min");
+                }
+
+                if(weatherBit != null)
+                {
+                    Log.i("Entered: ","Weather Bit Not EMPTY");
+                    weatherIcon.setImageBitmap(weatherBit);
+                }
+                progBar.setVisibility(View.INVISIBLE);
+            }
+        }
+
+
+        public void getImage() throws MalformedURLException {//Connect to url with png image for ImageView
 
             URL url = new URL("http://openweathermap.org/img/w/"+iconName);
             HttpURLConnection connect = null;
