@@ -18,7 +18,15 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Button b1 = (Button)findViewById(R.id.button);
-        Button startChat = (Button) findViewById(R.id.start_chat);
+        final Button startChat = (Button) findViewById(R.id.start_chat);
+        Button weather = (Button)findViewById(R.id.start_weather);
+        weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(),WeatherForecast.class);
+                startActivity(startIntent);
+            }
+        });
         startChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

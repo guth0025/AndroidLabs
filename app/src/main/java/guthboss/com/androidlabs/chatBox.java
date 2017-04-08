@@ -25,7 +25,7 @@ public class chatBox extends AppCompatActivity {
     SQLiteDatabase writeableDB;
     ChatDatabaseHelper db;
     ArrayList<String> chat;
-    ContentValues messages = null;
+    ContentValues messages = null;// holds data and passes it to db
     Cursor cursor = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +42,11 @@ public class chatBox extends AppCompatActivity {
         chat = new ArrayList<String>();
         final ChatAdapter messageAdapter =  new ChatAdapter(this);
         listView.setAdapter(messageAdapter);
-        cursor = writeableDB.rawQuery("SELECT * FROM messages;",null);
+        cursor = writeableDB.rawQuery("SELECT * FROM messages;",null);//Cursor uses this query to retrive data from db
         if(cursor != null && cursor.moveToFirst()) {
             do {
-                String id = cursor.getString(0);
-                String message = cursor.getString(1);
+                String id = cursor.getString(0);//get id
+                String message = cursor.getString(1);//get message field
                 chat.add(message);
                 Log.i("id",id);
                 Log.i("message",message);
@@ -58,9 +58,9 @@ public class chatBox extends AppCompatActivity {
             public void onClick(View v) {
 
                 chat.add(chatbox.getText().toString());
-                messages.put("message",chatbox.getText().toString());
-                writeableDB.insert("messages","",messages);
-                messages.clear();
+                messages.put("message",chatbox.getText().toString()); // add user input into message field
+                writeableDB.insert("messages","",messages); //add user input into messages table
+                messages.clear();//clears content value for next input
                 Log.i("ChatBox:",chat.toString());
                 messageAdapter.notifyDataSetChanged();
                 chatbox.setText("");
@@ -73,7 +73,7 @@ public class chatBox extends AppCompatActivity {
     public void onDestroy()
     {
         super.onDestroy();
-        db.close();
+        db.close();//close database when app is closed
     }
 
     private class ChatAdapter extends ArrayAdapter<String>
