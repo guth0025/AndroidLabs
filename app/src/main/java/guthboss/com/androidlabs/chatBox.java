@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class chatBox extends AppCompatActivity {
+    Boolean tablet = false;
     ListView listView;
     Button send;
     EditText chatbox;
@@ -32,6 +33,15 @@ public class chatBox extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_box);
+        if(findViewById(R.id.frame_lay )!= null)
+        {
+            Log.i("Device","Tablet");
+            tablet = true;
+        }
+        else
+            {
+                Log.i("Device","Phone");
+            }
         Log.i("Entered","Chat Box***************");
          db = new ChatDatabaseHelper(this);
         writeableDB = db.getWritableDatabase();
